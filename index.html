@@ -1,0 +1,2162 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>IFE 2025 Skills Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/png" sizes="192x192" 
+        href="https://static.wixstatic.com/media/5589a1_0954caf295c84f55ae97628ff17fa2d9%7Emv2.png/v1/fill/w_192%2Ch_192%2Clg_1%2Cusm_0.66_1.00_0.01/5589a1_0954caf295c84f55ae97628ff17fa2d9%7Emv2.png">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 0; background-color: #f8f9fa; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    h1, h2, h3, h4 { margin: 0.9rem 0; color: #333; }
+    .note { color: #555; font-size: 0.9rem; margin-bottom: 1rem; }
+    .charts-grid { display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 980px; margin: 0 auto; } 
+    .card { border: 1px solid #ddd; border-radius: 14px; padding: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); background-color: #fff; }
+    
+    /* Main Tab Styles */
+    .tabs { display: flex; border-bottom: 1px solid #ddd; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-button { padding: 10px 18px; cursor: pointer; border: none; background: none; font-size: 1rem; color: #555; border-bottom: 3px solid transparent; }
+    .tab-button.active { color: #cdacd4; border-bottom-color: #cdacd4; font-weight: 600; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* Sub-Tab Styles */
+    .subtabs { display: flex; flex-wrap: wrap; background-color: #e9ecef; border-radius: 8px; padding: 5px 16px; margin-bottom: 20px; }
+    .subtab-button { flex-grow: 1; text-align: center; padding: 8px 12px; cursor: pointer; border: none; background: none; font-size: 0.9rem; color: #495057; border-radius: 6px; }
+    .subtab-button.active { background-color: #fff; color: #cdacd4; font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .subtab-content { display: none; }
+    .subtab-content.active { display: block; }
+
+    /* Assessment Tab Styles */
+    .assessment-tabs { display: flex; justify-content: center; margin-bottom: 20px; padding: 0 16px; }
+    .assessment-button { padding: 8px 16px; cursor: pointer; border: 1px solid #ddd; background-color: #f8f9fa; font-size: 0.9rem; color: #495057; }
+    .assessment-button:first-child { border-top-left-radius: 6px; border-bottom-left-radius: 6px; }
+    .assessment-button:last-child { border-top-right-radius: 6px; border-bottom-right-radius: 6px; border-left: none; }
+    .assessment-button.active { background-color: #cdacd4; color: #fff; border-color: #cdacd4; }
+    .assessment-content { display: none; }
+    .assessment-content.active { display: block; }
+
+    .card > div[id^="chart-"] { width: 100%; height: 450px; }
+    .placeholder { color:#666; font-size:0.95rem; }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .comparison-grid > div {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="cursor: pointer;" onclick="goToWelcomePage()">Team & Student Skill Dashboard: Institute for Entrepreneurship 2025</h1>
+    <p class="note">Welcome to the Institute for Entrepreneurship (IFE) 2025 Skill Development Dashboard. This interactive report visualizes how students and teams developed across six core skill categories throughout the five-week fellowship. Each chart provides a snapshot of growth from Pre-Program → Mid-Program → Post-Program, illustrating both individual and team-level progress.</p>
+    <div class="note"><b>Cambio Labs × Prep for Prep</b></div>
+
+    <div class="tabs">
+      <button class="tab-button" onclick="openTab(event, 'team1')">Thryfted</button>
+      <button class="tab-button" onclick="openTab(event, 'team2')">Money Migo</button>
+      <button class="tab-button" onclick="openTab(event, 'team3')">Mobilize Us</button>
+      <button class="tab-button" onclick="openTab(event, 'team4')">Willing-Soil</button>
+      <button class="tab-button" onclick="openTab(event, 'team5')">Endeavor</button>
+      <button class="tab-button" onclick="openTab(event, 'team6')">Semblynce</button>
+    </div>
+
+    <div id="welcome-page" class="tab-content active">
+      <div class="card" style="max-width: 980px; margin: 20px auto; padding: 25px;">
+        <h2 style="text-align: center; margin-bottom: 20px;">How to Read This Dashboard</h2>
+
+        <h4>You can explore:</h4>
+        <ul>
+          <li><strong>Team Assessments:</strong> Aggregate skill trends and collective growth for each of the six IFE teams.</li>
+          <li><strong>Student Assessments:</strong> Detailed breakdowns of self-assessed and overall (peer + performance-based) skill development for each participant.</li>
+        </ul>
+
+        <h4>Understanding the Charts</h4>
+        <p>Each chart is a radar graph that highlights performance across the six core skill areas:</p>
+        <ul>
+          <li><strong>Adaptability & Creativity</strong> – personal growth, innovation, and flexibility.</li>
+          <li><strong>Problem-Solving & Critical Thinking</strong> – analytical reasoning and decision-making skills.</li>
+          <li><strong>Emotional Intelligence & Ethical Thinking</strong> – empathy, integrity, and self-awareness.</li>
+          <li><strong>Collaboration & Communication</strong> – teamwork, leadership, and clarity in expression.</li>
+          <li><strong>Technical Aptitude</strong> – comfort with tools, technology, and data-driven work.</li>
+          <li><strong>Time Management</strong> – organization, reliability, and ability to prioritize effectively.</li>
+        </ul>
+        <p>Scores range from <strong>1 to 5</strong> and represent demonstrated skill growth, not fixed judgments of ability. A 1 indicates minimal evidence of that skill at the given checkpoint, while a 5 indicates consistent demonstration and peer recognition of that strength.</p>
+
+        <h4>How Scores Are Calculated</h4>
+        <p>Each skill rating is derived from multiple data sources collected throughout the program:</p>
+        <ul>
+          <li><strong>Student Self-Assessments:</strong> Reflections where students evaluate their own progress and mindset.</li>
+          <li><strong>Peer & Team Evaluations:</strong> Feedback from teammates regarding collaboration, reliability, and performance.</li>
+          <li><strong>Journey Platform Analytics:</strong> Engagement and completion data from weekly tasks and reflections.</li>
+          <li><strong>Final Pitch Assessments:</strong> Scores reflecting communication, innovation, and applied teamwork during presentations.</li>
+        </ul>
+        <p>The combination of these measures yields two complementary perspectives:</p>
+        <ul>
+          <li><strong>Self-Assessment:</strong> How students perceive their own growth.</li>
+          <li><strong>Overall Assessment:</strong> A holistic view integrating peer feedback and measurable performance.</li>
+        </ul>
+
+        <h4>How to Navigate</h4>
+        <ul>
+          <li>Use the <strong>team tabs</strong> across the top to switch between the six IFE teams.</li>
+          <li>Within each team, select a <strong>student tab</strong> to view individual progress.</li>
+          <li>Toggle between views (<em>Overall vs Self</em>, <em>Overall Only</em>, or <em>Self Only</em>) to compare perspectives.</li>
+          <li>Hover or tap on any point in the radar charts to see precise values.</li>
+          <li>You can toggle specific lines on or off for a clearer comparison between stages.</li>
+        </ul>
+
+        <h4>Interpreting Growth</h4>
+        <p>Each increase across checkpoints (Pre → Mid → Post) reflects meaningful progress in confidence, performance, and collaboration. The goal of this dashboard is to <strong>visualize growth, not competition</strong> — celebrating how each student and team evolved as innovators, leaders, and learners.</p>
+      </div>
+    </div>
+  </div>
+
+    <!-- TEAM 1: THRYFTED (WITH REAL DATA) -->
+  <div class="team-container">
+    <div id="team1" class="tab-content">
+      <h2>Team: Thryfted</h2>
+      <div class="subtabs">
+        <button class="subtab-button active" onclick="openSubTab(event, 'team1-overview')">Team Overview</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team1-yasmin')">Yasmin Folarin</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team1-keziah')">Keziah Letsa</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team1-jaheem')">Jaheem Beck</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team1-tochi')">Tochi Ugboajah</button>
+      </div>
+
+      <div id="team1-overview" class="subtab-content active">
+        <h3>Team Aggregate View</h3>
+        <p>Thryfted showed steady growth across all six skill areas. The largest gains occurred in Adaptability & Creativity, Collaboration & Communication, and Technical Aptitude, each improving by more than one point from pre- to post-program. The team’s radar indicates balanced progress, with all members demonstrating consistent improvement in both self and overall assessments.</p>
+        <ul>
+          <li>Top Growth Areas: Adaptability & Creativity (+1.25), Collaboration & Communication (+1.25), Technical Aptitude (+1.38).</li>
+          <li>Focus Areas: Problem-Solving and Time Management for continued development.</li>
+        </ul>
+        <div class="charts-grid">
+          <div class="card">
+            <div id="chart-team1-overview"></div>
+            <div id="scores-team1-overview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team1-yasmin" class="subtab-content">
+        <h3>Student: Yasmin Folarin</h3>
+        <p>Yasmin improved consistently in all skill areas. The largest increases were in Adaptability & Creativity (+1.0) and Collaboration & Communication (+1.0). Self-ratings and overall scores show steady convergence, indicating growing confidence supported by peer feedback. Performance improved evenly across technical, interpersonal, and time-management domains.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team1-yasminfolarin-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team1-yasminfolarin-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team1-yasminfolarin-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team1-yasminfolarin-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-yasminfolarin-pre-comparison"></div>
+              </div>
+              <div id="scores-team1-yasminfolarin-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-yasminfolarin-mid-comparison"></div>
+              </div>
+              <div id="scores-team1-yasminfolarin-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-yasminfolarin-post-comparison"></div>
+              </div>
+              <div id="scores-team1-yasminfolarin-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team1-yasminfolarin-overall-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team1-yasminfolarin-overall"></div>
+              <div id="scores-team1-yasminfolarin-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team1-yasminfolarin-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team1-yasminfolarin-self"></div>
+              <div id="scores-team1-yasminfolarin-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team1-keziah" class="subtab-content">
+        <h3>Student: Keziah Letsa</h3>
+        <p>Keziah’s scores increased across all skills, with the strongest growth in Collaboration & Communication (+1.5) and Adaptability & Creativity (+1.5). Self-assessments tracked closely with overall ratings, showing accurate self-perception. Keziah's technical and organizational scores also rose steadily, indicating comprehensive improvement.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team1-keziahletsa-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team1-keziahletsa-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team1-keziahletsa-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team1-keziahletsa-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-keziahletsa-pre-comparison"></div>
+              </div>
+              <div id="scores-team1-keziahletsa-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-keziahletsa-mid-comparison"></div>
+              </div>
+              <div id="scores-team1-keziahletsa-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-keziahletsa-post-comparison"></div>
+              </div>
+              <div id="scores-team1-keziahletsa-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team1-keziahletsa-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team1-keziahletsa-overall"></div>
+              <div id="scores-team1-keziahletsa-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team1-keziahletsa-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team1-keziahletsa-self"></div>
+              <div id="scores-team1-keziahletsa-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team1-jaheem" class="subtab-content">
+        <h3>Student: Jaheem Beck</h3>
+        <p>Jaheem’s growth was gradual and steady, with improvements of roughly +1.0 across all skill areas.Technical Aptitude and EQ & Ethics showed the highest gains, both rising by 1.5 points. Self and overall scores followed similar trajectories, showing reliable progress without major discrepancies.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team1-jaheembeck-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team1-jaheembeck-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team1-jaheembeck-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team1-jaheembeck-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-jaheembeck-pre-comparison"></div>
+              </div>
+              <div id="scores-team1-jaheembeck-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-jaheembeck-mid-comparison"></div>
+              </div>
+              <div id="scores-team1-jaheembeck-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-jaheembeck-post-comparison"></div>
+              </div>
+              <div id="scores-team1-jaheembeck-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team1-jaheembeck-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team1-jaheembeck-overall"></div>
+              <div id="scores-team1-jaheembeck-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team1-jaheembeck-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team1-jaheembeck-self"></div>
+              <div id="scores-team1-jaheembeck-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team1-tochi" class="subtab-content">
+        <h3>Student: Tochi Ugboajah</h3>
+        <p>Tochi showed balanced gains across all categories, with notable increases in Technical Aptitude (+2.0) and Collaboration & Communication (+1.5). Self and overall scores were closely aligned, suggesting consistent self-reflection. Tochi's post-program scores reflect strong performance across both technical and teamwork dimensions.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team1-tochiugboajah-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team1-tochiugboajah-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team1-tochiugboajah-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team1-tochiugboajah-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-tochiugboajah-pre-comparison"></div>
+              </div>
+              <div id="scores-team1-tochiugboajah-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-tochiugboajah-mid-comparison"></div>
+              </div>
+              <div id="scores-team1-tochiugboajah-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team1-tochiugboajah-post-comparison"></div>
+              </div>
+              <div id="scores-team1-tochiugboajah-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team1-tochiugboajah-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team1-tochiugboajah-overall"></div>
+              <div id="scores-team1-tochiugboajah-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team1-tochiugboajah-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team1-tochiugboajah-self"></div>
+              <div id="scores-team1-tochiugboajah-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM 2: MONEY MIGO -->
+    <div id="team2" class="tab-content">
+      <h2>Team: Money Migo</h2>
+      <div class="subtabs">
+        <button class="subtab-button active" onclick="openSubTab(event, 'team2-overview')">Team Overview</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team2-ben-brown')">Ben Brown</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team2-isabella-calderon')">Isabella Calderon</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team2-maryama-karimou')">Maryama Karimou</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team2-nusayba-nizam')">Nusayba Nizam</button>
+      </div>
+
+      <div id="team2-overview" class="subtab-content active">
+        <h3>Team Aggregate View</h3>
+        <p>Money Migo showed broad improvement across all six categories. The strongest gains were in Collaboration & Communication (+1.65), Problem-Solving (+1.63), and Adaptability & Creativity (+1.25). Technical skills and time management also increased steadily, indicating consistent development across both interpersonal and analytical domains.</p>
+        <ul>
+          <li>Top Growth Areas: Collaboration & Communication (+1.65), Problem-Solving (+1.63), Adaptability & Creativity (+1.25)</li>
+          <li>Focus Areas: Continued expansion of technical proficiency and ethical decision-making.</li>
+        </ul>
+        <div class="charts-grid">
+          <div class="card">
+            <div id="chart-team2-overview"></div>
+            <div id="scores-team2-overview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team2-ben-brown" class="subtab-content">
+        <h3>Student: Ben Brown</h3>
+        <p>Ben’s results show uniform progress across all areas, with clear gains in Technical Aptitude and Collaboration & Communication (+2.0 each). Self-ratings stayed slightly above overall scores, indicating accurate self-awareness. By the final stage, Ben demonstrated consistent strength across both creative and technical dimensions.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team2-benbrown-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team2-benbrown-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team2-benbrown-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team2-benbrown-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-benbrown-pre-comparison"></div>
+              </div>
+              <div id="scores-team2-benbrown-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-benbrown-mid-comparison"></div>
+              </div>
+              <div id="scores-team2-benbrown-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-benbrown-post-comparison"></div>
+              </div>
+              <div id="scores-team2-benbrown-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team2-benbrown-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team2-benbrown-overall"></div>
+              <div id="scores-team2-benbrown-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team2-benbrown-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team2-benbrown-self"></div>
+              <div id="scores-team2-benbrown-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team2-isabella-calderon" class="subtab-content">
+        <h3>Student: Isabella Calderon</h3>
+        <p>Isabella recorded significant improvement in Problem-Solving (+2.0) and Collaboration & Communication (+1.8). Self and overall assessments were closely aligned, showing dependable self-evaluation. Her results indicate strong growth in analytical reasoning, communication, and time management.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team2-isabellacalderon-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team2-isabellacalderon-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team2-isabellacalderon-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team2-isabellacalderon-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-isabellacalderon-pre-comparison"></div>
+              </div>
+              <div id="scores-team2-isabellacalderon-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-isabellacalderon-mid-comparison"></div>
+              </div>
+              <div id="scores-team2-isabellacalderon-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-isabellacalderon-post-comparison"></div>
+              </div>
+              <div id="scores-team2-isabellacalderon-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team2-isabellacalderon-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team2-isabellacalderon-overall"></div>
+              <div id="scores-team2-isabellacalderon-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team2-isabellacalderon-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team2-isabellacalderon-self"></div>
+              <div id="scores-team2-isabellacalderon-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team2-maryama-karimou" class="subtab-content">
+        <h3>Student: Maryama Karimou</h3>
+        <p>Maryama’s growth was steady across all categories, with largest gains in Problem-Solving and Collaboration & Communication (+2.0 each). Improvements in EQ & Ethics and Technical Aptitude (+1.0) reflect balanced advancement between interpersonal and technical competencies. Self-scores remained consistent with overall performance.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team2-maryamakarimou-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team2-maryamakarimou-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team2-maryamakarimou-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team2-maryamakarimou-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-maryamakarimou-pre-comparison"></div>
+              </div>
+              <div id="scores-team2-maryamakarimou-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-maryamakarimou-mid-comparison"></div>
+              </div>
+              <div id="scores-team2-maryamakarimou-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-maryamakarimou-post-comparison"></div>
+              </div>
+              <div id="scores-team2-maryamakarimou-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team2-maryamakarimou-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team2-maryamakarimou-overall"></div>
+              <div id="scores-team2-maryamakarimou-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team2-maryamakarimou-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team2-maryamakarimou-self"></div>
+              <div id="scores-team2-maryamakarimou-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team2-nusayba-nizam" class="subtab-content">
+        <h3>Student: Nusayba Nizam</h3>
+        <p>Nusayba demonstrated continuous advancement, particularly in Problem-Solving (+1.5) and Collaboration & Communication (+1.3). Her Adaptability & Creativity and EQ & Ethics also rose by one point each. Self-assessments tracked closely with overall results, confirming reliable growth and awareness across all domains.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team2-nusaybanizam-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team2-nusaybanizam-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team2-nusaybanizam-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team2-nusaybanizam-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-nusaybanizam-pre-comparison"></div>
+              </div>
+              <div id="scores-team2-nusaybanizam-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-nusaybanizam-mid-comparison"></div>
+              </div>
+              <div id="scores-team2-nusaybanizam-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team2-nusaybanizam-post-comparison"></div>
+              </div>
+              <div id="scores-team2-nusaybanizam-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team2-nusaybanizam-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team2-nusaybanizam-overall"></div>
+              <div id="scores-team2-nusaybanizam-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team2-nusaybanizam-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team2-nusaybanizam-self"></div>
+              <div id="scores-team2-nusaybanizam-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM 3: MOBILIZE US -->
+    <div id="team3" class="tab-content">
+      <h2>Team: Mobilize Us</h2>
+      <div class="subtabs">
+        <button class="subtab-button active" onclick="openSubTab(event, 'team3-overview')">Team Overview</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team3-ben-dike')">Ben Dike</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team3-jose-plata')">Jose Plata</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team3-logan-passe')">Logan Passe</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team3-zaire-spencer')">Zaire Spencer</button>
+      </div>
+
+      <div id="team3-overview" class="subtab-content active">
+        <h3>Team Aggregate View</h3>
+        <p>Mobilize Us showed consistent improvement across all six categories, with the largest gains in Adaptability & Creativity (+0.93) and Technical Aptitude (+0.75). Growth patterns were steady rather than sharp, suggesting sustained development throughout the program. Team performance strengthened most in creative adaptability and communication, while problem-solving and ethics saw moderate increases.</p>
+        <ul>
+          <li></li>Top Growth Areas: Adaptability & Creativity (+0.93), Technical Aptitude (+0.75), Collaboration & Communication (+0.65)</li>
+          <li>Focus Areas: Continued enhancement of analytical reasoning and time management.</li>
+        </ul>
+        <div class="charts-grid">
+          <div class="card">
+            <div id="chart-team3-overview"></div>
+            <div id="scores-team3-overview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team3-ben-dike" class="subtab-content">
+        <h3>Student: Ben Dike</h3>
+        <p>Ben’s scores improved steadily across all skill areas, with increases of roughly +0.8 to +1.0 from pre- to post-program. Gains were strongest in Adaptability & Creativity and Technical Aptitude. Self-assessments were slightly higher than overall scores, showing consistent confidence and alignment with peer feedback. His profile indicates even growth across creative, interpersonal, and technical domains.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team3-bendike-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team3-bendike-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team3-bendike-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team3-bendike-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-bendike-pre-comparison"></div>
+              </div>
+              <div id="scores-team3-bendike-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-bendike-mid-comparison"></div>
+              </div>
+              <div id="scores-team3-bendike-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-bendike-post-comparison"></div>
+              </div>
+              <div id="scores-team3-bendike-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team3-bendike-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team3-bendike-overall"></div>
+              <div id="scores-team3-bendike-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team3-bendike-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team3-bendike-self"></div>
+              <div id="scores-team3-bendike-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team3-jose-plata" class="subtab-content">
+        <h3>Student: Jose Plata</h3>
+        <p>Jose demonstrated steady upward movement across all categories, with the largest gains in Problem-Solving (+0.7) and Technical Aptitude (+0.7). Improvements were balanced across self and overall scores, reflecting self-awareness and consistent development. His results show reliable progress in both individual and team-based competencies.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team3-joseplata-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team3-joseplata-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team3-joseplata-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team3-joseplata-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-joseplata-pre-comparison"></div>
+              </div>
+              <div id="scores-team3-joseplata-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-joseplata-mid-comparison"></div>
+              </div>
+              <div id="scores-team3-joseplata-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-joseplata-post-comparison"></div>
+              </div>
+              <div id="scores-team3-joseplata-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team3-joseplata-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team3-joseplata-overall"></div>
+              <div id="scores-team3-joseplata-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team3-joseplata-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team3-joseplata-self"></div>
+              <div id="scores-team3-joseplata-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team3-logan-passe" class="subtab-content">
+        <h3>Student: Logan Passe</h3>
+        <p>Logan showed continuous progress across all areas, most notably in Adaptability & Creativity (+1.1) and Problem-Solving (+0.9). Self and overall ratings remained close throughout, suggesting accurate self-assessment. His improvements were well-distributed across interpersonal and organizational skills, with moderate but consistent technical growth.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team3-loganpasse-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team3-loganpasse-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team3-loganpasse-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team3-loganpasse-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-loganpasse-pre-comparison"></div>
+              </div>
+              <div id="scores-team3-loganpasse-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-loganpasse-mid-comparison"></div>
+              </div>
+              <div id="scores-team3-loganpasse-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-loganpasse-post-comparison"></div>
+              </div>
+              <div id="scores-team3-loganpasse-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team3-loganpasse-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team3-loganpasse-overall"></div>
+              <div id="scores-team3-loganpasse-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team3-loganpasse-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team3-loganpasse-self"></div>
+              <div id="scores-team3-loganpasse-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team3-zaire-spencer" class="subtab-content">
+        <h3>Student: Zaire Spencer</h3>
+        <p>Zaire’s performance increased consistently, particularly in Adaptability & Creativity and Problem-Solving (each +1.0). Collaboration & Communication also improved by +0.8. Self-ratings and overall evaluations closely aligned, showing reliable self-perception. Zaire’s development was broad-based, with incremental gains across technical, analytical, and interpersonal skills.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team3-zairespencer-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team3-zairespencer-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team3-zairespencer-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team3-zairespencer-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-zairespencer-pre-comparison"></div>
+              </div>
+              <div id="scores-team3-zairespencer-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-zairespencer-mid-comparison"></div>
+              </div>
+              <div id="scores-team3-zairespencer-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team3-zairespencer-post-comparison"></div>
+              </div>
+              <div id="scores-team3-zairespencer-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team3-zairespencer-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team3-zairespencer-overall"></div>
+              <div id="scores-team3-zairespencer-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team3-zairespencer-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team3-zairespencer-self"></div>
+              <div id="scores-team3-zairespencer-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM 4: WILLING SOIL -->
+    <div id="team4" class="tab-content">
+      <h2>Team: Willing Soil</h2>
+      <div class="subtabs">
+        <button class="subtab-button active" onclick="openSubTab(event, 'team4-overview')">Team Overview</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team4-ishmael-sillah')">Ishmael Sillah</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team4-jordan-edwards-williams')">Jordan Edwards Williams</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team4-michael-bawuah')">Michael Bawuah</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team4-raihan-rafin')">Raihan Rafin</button>
+      </div>
+
+      <div id="team4-overview" class="subtab-content active">
+        <h3>Team Aggregate View</h3>
+        <p>Willing Soil showed strong and consistent improvement across all six categories, with the highest gains in Problem-Solving (+1.48) and Collaboration & Communication (+1.40). Adaptability & Creativity also rose sharply, while gains in EQ & Ethics and Time Management reflected solid overall development. The team’s trajectory shows a balanced mix of cognitive, creative, and interpersonal growth.</p>
+        <ul>
+          <li>Top Growth Areas: Problem-Solving (+1.48), Collaboration & Communication (+1.40), Adaptability & Creativity (+1.20)</li>
+          <li>Focus Areas: Continued development in Technical Aptitude and consistent time management under complex tasks.</li>
+        </ul>
+        <div class="charts-grid">
+          <div class="card">
+            <div id="chart-team4-overview"></div>
+            <div id="scores-team4-overview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team4-ishmael-sillah" class="subtab-content">
+        <h3>Student: Ishmael Sillah</h3>
+        <p>Ishmael showed steady growth in every category, with his largest gains in Collaboration & Communication (+1.3) and Problem-Solving (+1.1). Self and overall scores followed similar trends, indicating reliable self-assessment. His progress reflects balanced improvement across creativity, teamwork, and organization.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team4-ishmaelsillah-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team4-ishmaelsillah-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team4-ishmaelsillah-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team4-ishmaelsillah-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-ishmaelsillah-pre-comparison"></div>
+              </div>
+              <div id="scores-team4-ishmaelsillah-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-ishmaelsillah-mid-comparison"></div>
+              </div>
+              <div id="scores-team4-ishmaelsillah-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-ishmaelsillah-post-comparison"></div>
+              </div>
+              <div id="scores-team4-ishmaelsillah-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team4-ishmaelsillah-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team4-ishmaelsillah-overall"></div>
+              <div id="scores-team4-ishmaelsillah-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team4-ishmaelsillah-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team4-ishmaelsillah-self"></div>
+              <div id="scores-team4-ishmaelsillah-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team4-jordan-edwards-williams" class="subtab-content">
+        <h3>Student: Jordan Edwards Williams</h3>
+        <p>Jordan achieved substantial increases in Problem-Solving (+1.6) and Collaboration & Communication (+1.6). Adaptability & Creativity improved by +1.3, showing broader creative and analytical growth. Self-scores remained closely aligned with overall results, confirming consistent self-awareness and strong performance across all domains.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team4-jordanedwardswilliams-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team4-jordanedwardswilliams-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team4-jordanedwardswilliams-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team4-jordanedwardswilliams-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-jordanedwardswilliams-pre-comparison"></div>
+              </div>
+              <div id="scores-team4-jordanedwardswilliams-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-jordanedwardswilliams-mid-comparison"></div>
+              </div>
+              <div id="scores-team4-jordanedwardswilliams-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-jordanedwardswilliams-post-comparison"></div>
+              </div>
+              <div id="scores-team4-jordanedwardswilliams-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team4-jordanedwardswilliams-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team4-jordanedwardswilliams-overall"></div>
+              <div id="scores-team4-jordanedwardswilliams-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team4-jordanedwardswilliams-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team4-jordanedwardswilliams-self"></div>
+              <div id="scores-team4-jordanedwardswilliams-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team4-michael-bawuah" class="subtab-content">
+        <h3>Student: Michael Bawuah</h3>
+        <p>Michael demonstrated significant development in Problem-Solving (+1.6) and Collaboration & Communication (+1.5). EQ & Ethics also rose by +1.0, showing progress in reflective and interpersonal dimensions. Self and overall assessments were aligned throughout, underscoring consistent self-evaluation and measured growth in technical and organizational areas.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team4-michaelbawuah-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team4-michaelbawuah-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team4-michaelbawuah-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team4-michaelbawuah-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-michaelbawuah-pre-comparison"></div>
+              </div>
+              <div id="scores-team4-michaelbawuah-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-michaelbawuah-mid-comparison"></div>
+              </div>
+              <div id="scores-team4-michaelbawuah-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-michaelbawuah-post-comparison"></div>
+              </div>
+              <div id="scores-team4-michaelbawuah-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team4-michaelbawuah-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team4-michaelbawuah-overall"></div>
+              <div id="scores-team4-michaelbawuah-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team4-michaelbawuah-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team4-michaelbawuah-self"></div>
+              <div id="scores-team4-michaelbawuah-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team4-raihan-rafin" class="subtab-content">
+        <h3>Student: Raihan Rafin</h3>
+        <p>Raihan displayed strong upward trends across all skills, especially in Problem-Solving (+1.6) and Collaboration & Communication (+1.2). Adaptability & Creativity and EQ & Ethics also advanced by +1.2 and +1.0, respectively. His post-program results show balanced proficiency across analytical, creative, and interpersonal competencies.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team4-raihanrafin-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team4-raihanrafin-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team4-raihanrafin-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team4-raihanrafin-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-raihanrafin-pre-comparison"></div>
+              </div>
+              <div id="scores-team4-raihanrafin-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-raihanrafin-mid-comparison"></div>
+              </div>
+              <div id="scores-team4-raihanrafin-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team4-raihanrafin-post-comparison"></div>
+              </div>
+              <div id="scores-team4-raihanrafin-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team4-raihanrafin-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team4-raihanrafin-overall"></div>
+              <div id="scores-team4-raihanrafin-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team4-raihanrafin-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team4-raihanrafin-self"></div>
+              <div id="scores-team4-raihanrafin-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM 5: ENDEAVOR -->
+    <div id="team5" class="tab-content">
+      <h2>Team: Endeavor</h2>
+      <div class="subtabs">
+        <button class="subtab-button active" onclick="openSubTab(event, 'team5-overview')">Team Overview</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team5-angel-wai-hernandez')">Angel Wai Hernandez</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team5-caroline-creary')">Caroline Creary</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team5-kaylee-taye')">Kaylee Taye</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team5-rhyley-morrow')">Rhyley Morrow</button>
+      </div>
+
+      <div id="team5-overview" class="subtab-content active">
+        <h3>Team Aggregate View</h3>
+        <p>Endeavor showed consistent improvement across all six categories, with the largest gains in Collaboration & Communication (+1.37), Problem-Solving (+1.27), and Adaptability & Creativity (+1.17). EQ & Ethics (+0.87), Time Management (+0.93), and Technical Aptitude (+0.80) also trended upward, indicating broad, steady growth.</p>
+        <ul>
+          <li>Top Growth Areas: Collaboration & Communication (+1.37), Problem-Solving (+1.27), Adaptability & Creativity (+1.17)</li>
+          <li>Focus Areas: Continued development in Technical Aptitude and Time Management.</li>
+        </ul>
+        <div class="charts-grid">
+          <div class="card">
+            <div id="chart-team5-overview"></div>
+            <div id="scores-team5-overview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team5-angel-wai-hernandez" class="subtab-content">
+        <h3>Student: Angel Wai Hernandez</h3>
+        <p>Angel improved across all skills, led by Collaboration & Communication (+1.4) and Problem-Solving (+1.3). Adaptability & Creativity (+1.1), EQ & Ethics (+0.8), Technical Aptitude (+0.8), and Time Management (+0.9) rose steadily. Self and overall scores moved in parallel, indicating consistent self-assessment.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team5-angelwaihernandez-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team5-angelwaihernandez-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team5-angelwaihernandez-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team5-angelwaihernandez-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-angelwaihernandez-pre-comparison"></div>
+              </div>
+              <div id="scores-team5-angelwaihernandez-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-angelwaihernandez-mid-comparison"></div>
+              </div>
+              <div id="scores-team5-angelwaihernandez-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-angelwaihernandez-post-comparison"></div>
+              </div>
+              <div id="scores-team5-angelwaihernandez-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team5-angelwaihernandez-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team5-angelwaihernandez-overall"></div>
+              <div id="scores-team5-angelwaihernandez-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team5-angelwaihernandez-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team5-angelwaihernandez-self"></div>
+              <div id="scores-team5-angelwaihernandez-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team5-caroline-creary" class="subtab-content">
+        <h3>Student: Caroline Creary</h3>
+        <p>Caroline recorded strong gains in Collaboration & Communication (+1.4), Problem-Solving (+1.2), and Adaptability & Creativity (+1.2). EQ & Ethics (+0.9), Technical Aptitude (+0.8), and Time Management (+0.9) also increased. Self-ratings tracked closely with overall results throughout.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team5-carolinecreary-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team5-carolinecreary-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team5-carolinecreary-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team5-carolinecreary-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-carolinecreary-pre-comparison"></div>
+              </div>
+              <div id="scores-team5-carolinecreary-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-carolinecreary-mid-comparison"></div>
+              </div>
+              <div id="scores-team5-carolinecreary-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-carolinecreary-post-comparison"></div>
+              </div>
+              <div id="scores-team5-carolinecreary-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team5-carolinecreary-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team5-carolinecreary-overall"></div>
+              <div id="scores-team5-carolinecreary-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team5-carolinecreary-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team5-carolinecreary-self"></div>
+              <div id="scores-team5-carolinecreary-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team5-kaylee-taye" class="subtab-content">
+        <h3>Student: Kaylee Taye</h3>
+        <p>Kaylee showed broad increases, with the largest in Problem-Solving (+1.4) and Collaboration & Communication (+1.4). Adaptability & Creativity (+1.3), EQ & Ethics (+1.0), Technical Aptitude (+0.8), and Time Management (+1.0) advanced in parallel. Self and overall assessments remained aligned.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team5-kayleetaye-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team5-kayleetaye-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team5-kayleetaye-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team5-kayleetaye-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-kayleetaye-pre-comparison"></div>
+              </div>
+              <div id="scores-team5-kayleetaye-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-kayleetaye-mid-comparison"></div>
+              </div>
+              <div id="scores-team5-kayleetaye-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-kayleetaye-post-comparison"></div>
+              </div>
+              <div id="scores-team5-kayleetaye-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team5-kayleetaye-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team5-kayleetaye-overall"></div>
+              <div id="scores-team5-kayleetaye-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team5-kayleetaye-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team5-kayleetaye-self"></div>
+              <div id="scores-team5-kayleetaye-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team5-rhyley-morrow" class="subtab-content">
+        <h3>Student: Rhyley Morrow</h3>
+        <p>Rhyley’s growth was consistent across all areas: Collaboration & Communication (+1.3), Problem-Solving (+1.2), Adaptability & Creativity (+1.1), EQ & Ethics (+0.8), Technical Aptitude (+0.8), and Time Management (+0.9). Self-assessments matched overall trends, indicating reliable self-perception.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team5-rhyleymorrow-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team5-rhyleymorrow-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team5-rhyleymorrow-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team5-rhyleymorrow-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-rhyleymorrow-pre-comparison"></div>
+              </div>
+              <div id="scores-team5-rhyleymorrow-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-rhyleymorrow-mid-comparison"></div>
+              </div>
+              <div id="scores-team5-rhyleymorrow-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team5-rhyleymorrow-post-comparison"></div>
+              </div>
+              <div id="scores-team5-rhyleymorrow-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team5-rhyleymorrow-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team5-rhyleymorrow-overall"></div>
+              <div id="scores-team5-rhyleymorrow-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team5-rhyleymorrow-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team5-rhyleymorrow-self"></div>
+              <div id="scores-team5-rhyleymorrow-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM 6: SEMBLYNCE -->
+    <div id="team6" class="tab-content">
+      <h2>Team: Semblynce</h2>
+      <div class="subtabs">
+        <button class="subtab-button active" onclick="openSubTab(event, 'team6-overview')">Team Overview</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team6-brandon-suarez')">Brandon Suarez</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team6-janelle-boateng')">Janelle Boateng</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team6-michael-quintero')">Michael Quintero</button>
+        <button class="subtab-button" onclick="openSubTab(event, 'team6-rahib-hoque')">Rahib Hoque</button>
+      </div>
+
+      <div id="team6-overview" class="subtab-content active">
+        <h3>Team Aggregate View</h3>
+        <p>Semblynce showed consistent improvement across all six categories, with the largest gains in Problem-Solving (+1.17), Collaboration & Communication (+1.15), and Adaptability & Creativity (+1.13). Technical Aptitude (+0.93), Time Management (+0.90), and EQ & Ethics (+0.78) also increased steadily.</p>
+        <ul>
+          <li>Top Growth Areas: Problem-Solving (+1.17), Collaboration & Communication (+1.15), Adaptability & Creativity (+1.13)</li>
+          <li>Focus Areas: Continued development in Technical Aptitude and Time Management, alongside sustained progress in EQ & Ethics.</li>
+        </ul>
+        <div class="charts-grid">
+          <div class="card">
+            <div id="chart-team6-overview"></div>
+            <div id="scores-team6-overview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team6-brandon-suarez" class="subtab-content">
+        <h3>Student: Brandon Suarez</h3>
+        <p>Brandon’s overall scores rose across all skills: Adaptability & Creativity (+1.0), Problem-Solving (+1.1), EQ & Ethics (+0.6), Collaboration & Communication (+0.9), Technical Aptitude (+0.7), Time Management (+0.7). Self and overall remained closely aligned at each checkpoint.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team6-brandonsuarez-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team6-brandonsuarez-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team6-brandonsuarez-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team6-brandonsuarez-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-brandonsuarez-pre-comparison"></div>
+              </div>
+              <div id="scores-team6-brandonsuarez-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-brandonsuarez-mid-comparison"></div>
+              </div>
+              <div id="scores-team6-brandonsuarez-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-brandonsuarez-post-comparison"></div>
+              </div>
+              <div id="scores-team6-brandonsuarez-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team6-brandonsuarez-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team6-brandonsuarez-overall"></div>
+              <div id="scores-team6-brandonsuarez-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team6-brandonsuarez-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team6-brandonsuarez-self"></div>
+              <div id="scores-team6-brandonsuarez-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team6-janelle-boateng" class="subtab-content">
+        <h3>Student: Janelle Boateng</h3>
+        <p>Janelle recorded strong gains in all areas: Adaptability & Creativity (+1.2), Problem-Solving (+1.2), EQ & Ethics (+0.9), Collaboration & Communication (+1.3), Technical Aptitude (+1.0), Time Management (+0.9). Self-assessments tracked closely with overall results.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team6-janelleboateng-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team6-janelleboateng-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team6-janelleboateng-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team6-janelleboateng-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-janelleboateng-pre-comparison"></div>
+              </div>
+              <div id="scores-team6-janelleboateng-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-janelleboateng-mid-comparison"></div>
+              </div>
+              <div id="scores-team6-janelleboateng-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-janelleboateng-post-comparison"></div>
+              </div>
+              <div id="scores-team6-janelleboateng-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team6-janelleboateng-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team6-janelleboateng-overall"></div>
+              <div id="scores-team6-janelleboateng-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team6-janelleboateng-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team6-janelleboateng-self"></div>
+              <div id="scores-team6-janelleboateng-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team6-michael-quintero" class="subtab-content">
+        <h3>Student: Michael Quintero</h3>
+        <p>Michael showed steady increases across the board: Adaptability & Creativity (+1.0), Problem-Solving (+1.1), EQ & Ethics (+0.7), Collaboration & Communication (+1.1), Technical Aptitude (+0.9), Time Management (+0.9). Self and overall progressed in parallel.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team6-michaelquintero-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team6-michaelquintero-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team6-michaelquintero-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team6-michaelquintero-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-michaelquintero-pre-comparison"></div>
+              </div>
+              <div id="scores-team6-michaelquintero-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-michaelquintero-mid-comparison"></div>
+              </div>
+              <div id="scores-team6-michaelquintero-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-michaelquintero-post-comparison"></div>
+              </div>
+              <div id="scores-team6-michaelquintero-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team6-michaelquintero-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team6-michaelquintero-overall"></div>
+              <div id="scores-team6-michaelquintero-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team6-michaelquintero-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team6-michaelquintero-self"></div>
+              <div id="scores-team6-michaelquintero-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="team6-rahib-hoque" class="subtab-content">
+        <h3>Student: Rahib Hoque</h3>
+        <p>Rahib posted the largest individual jumps within the team: Adaptability & Creativity (+1.3), Problem-Solving (+1.3), EQ & Ethics (+0.9), Collaboration & Communication (+1.3), Technical Aptitude (+1.1), Time Management (+1.1). Self-ratings remained closely aligned with overall evaluations.</p>
+        <div class="assessment-tabs">
+          <button class="assessment-button active" onclick="openAssessmentView(event, 'team6-rahibhoque-comparison')">Overall vs Self Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team6-rahibhoque-overall-content')">Overall Assessment</button>
+          <button class="assessment-button" onclick="openAssessmentView(event, 'team6-rahibhoque-self-content')">Student Self-Assessment</button>
+        </div>
+        <div id="team6-rahibhoque-comparison" class="assessment-content active">
+          <div class="comparison-grid">
+            <div>
+              <div class="card">
+                <h4>    </h4>
+                <div id="chart-team6-rahibhoque-pre-comparison"></div>
+              </div>
+              <div id="scores-team6-rahibhoque-pre-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-rahibhoque-mid-comparison"></div>
+              </div>
+              <div id="scores-team6-rahibhoque-mid-comparison"></div>
+            </div>
+            <div>
+              <div class="card">
+                <h4>       </h4>
+                <div id="chart-team6-rahibhoque-post-comparison"></div>
+              </div>
+              <div id="scores-team6-rahibhoque-post-comparison"></div>
+            </div>
+          </div>
+        </div>
+        <div id="team6-rahibhoque-overall-content" class="assessment-content active">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team6-rahibhoque-overall"></div>
+              <div id="scores-team6-rahibhoque-overall"></div>
+          </div>
+        </div>
+        </div>
+        <div id="team6-rahibhoque-self-content" class="assessment-content">
+          <div class="charts-grid">
+            <div class="card">
+              <div id="chart-team6-rahibhoque-self"></div>
+              <div id="scores-team6-rahibhoque-self"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- SKILL GROUPING + BASE SKILLS ---
+
+    // ---- SKILL GROUPING ----
+
+    const SKILL_GROUPS = {
+      'Adaptability & Creativity': ['Adaptability', 'Learning', 'Creativity'],
+      'Problem-Solving': ['Problem-Solving', 'Critical Thinking'],
+      'EQ & Ethics': ['Emotional Intelligence', 'Ethics'],
+      'Collab & Comms': ['Communication', 'Collaboration'],
+      'Tech Aptitude': ['Tech Aptitude'],
+      'Time Management': ['Time Management']
+    };
+    const BASE_SKILLS = [...new Set(Object.values(SKILL_GROUPS).flat())].map(s => s.replace('<br>', ''));
+
+
+    function goToWelcomePage() {
+      // Deactivate all main team tabs
+      const tabcontent = document.querySelectorAll(".tab-content");
+      tabcontent.forEach(tc => tc.classList.remove('active'));
+
+      // Deactivate all main tab buttons
+      const tablinks = document.querySelectorAll(".tab-button");
+      tablinks.forEach(tl => tl.classList.remove('active'));
+
+      // Activate the welcome page
+      const welcomePage = document.getElementById('welcome-page');
+      if (welcomePage) {
+          welcomePage.classList.add('active');
+      }
+    }
+
+
+    // ---- UI HELPERS (kept the same, with "Overview by default") ----
+    function openTab(evt, tabName) {
+      const tabcontent = document.querySelectorAll(".tab-content");
+      tabcontent.forEach(tc => tc.classList.remove('active'));
+      const tablinks = document.querySelectorAll(".tab-button");
+      tablinks.forEach(tl => tl.classList.remove('active'));
+      const tabEl = document.getElementById(tabName);
+      if (tabEl) tabEl.classList.add('active');
+      evt.currentTarget.classList.add("active");
+      const defaultSubBtn = tabEl.querySelector(".subtab-button");
+      if (defaultSubBtn) defaultSubBtn.click();
+    }
+
+    function openSubTab(evt, tabName) {
+      const mainTabContent = evt.currentTarget.closest('.tab-content');
+      if (!mainTabContent) return;
+      const subtabContents = mainTabContent.querySelectorAll('.subtab-content');
+      subtabContents.forEach(content => content.classList.remove('active'));
+      const subtabButtons = mainTabContent.querySelectorAll('.subtab-button');
+      subtabButtons.forEach(button => button.classList.remove('active'));
+      const targetSubtab = document.getElementById(tabName);
+      if (targetSubtab) {
+          targetSubtab.classList.add('active');
+          // HACK: Force Plotly to resize charts in the now-visible container
+          // This is needed because Plotly can't calculate dimensions of hidden elements.
+          setTimeout(() => {
+            targetSubtab.querySelectorAll('div[id^="chart-"]').forEach(Plotly.Plots.resize);
+          }, 10);
+      }
+      evt.currentTarget.classList.add('active');
+      const defaultAssessmentButton = targetSubtab.querySelector('.assessment-button');
+      if (defaultAssessmentButton) {
+          defaultAssessmentButton.click();
+      }
+    }
+
+    function openAssessmentView(evt, viewName) {
+      const studentContainer = evt.currentTarget.closest('.subtab-content');
+      if (!studentContainer) return;
+      const assessmentContents = studentContainer.querySelectorAll('.assessment-content');
+      assessmentContents.forEach(content => content.classList.remove('active'));
+      const assessmentButtons = studentContainer.querySelectorAll('.assessment-button');
+      assessmentButtons.forEach(button => button.classList.remove('active'));
+      const targetContent = document.getElementById(viewName);
+      if (targetContent) {
+          targetContent.classList.add('active');
+          // HACK: Force Plotly to resize charts in the now-visible container
+          // This is needed because Plotly can't calculate dimensions of hidden elements.
+          setTimeout(() => {
+            targetContent.querySelectorAll('div[id^="chart-"]').forEach(Plotly.Plots.resize);
+          }, 10);
+      }
+      evt.currentTarget.classList.add('active');
+    }
+
+    // ---- CHART HELPERS (unchanged) ----
+    function getAggregatedScores(rawScores) {
+      const aggregated = {};
+      for (const groupName in SKILL_GROUPS) {
+        const skillsInGroup = SKILL_GROUPS[groupName].map(s => s.replace('<br>', ''));
+        const total = skillsInGroup.reduce((sum, skill) => sum + (rawScores[skill] || 0), 0);
+        aggregated[groupName] = total / skillsInGroup.length;
+      }
+      return aggregated;
+    }
+    function createOverlayRadarChart(chartTargetId, scoresTargetId, title, preScores, midScores, postScores) {
+      const categories = Object.keys(SKILL_GROUPS);
+      
+      const preVals = categories.map(cat => (preScores || {})[cat] || 0);
+      const midVals = categories.map(cat => (midScores || {})[cat] || 0);
+      const postVals = categories.map(cat => (postScores || {})[cat] || 0);
+
+      const midHoverTemplates = midVals.map((val, i) => {
+        const diff = val - preVals[i];
+        const sign = diff >= 0 ? '+' : '';
+        const diffText = ` (${sign}${diff.toFixed(2)} vs Pre)`;
+        return `<b>${categories[i]}</b><br>Mid-Program: ${val.toFixed(2)}${diffText}<extra></extra>`;
+      });
+
+      const postHoverTemplates = postVals.map((val, i) => {
+        const diff = val - midVals[i];
+            const sign = diff >= 0 ? '+' : '';
+        const diffText = ` (${sign}${diff.toFixed(2)} vs Mid)`;
+        return `<b>${categories[i]}</b><br>Post-Program: ${val.toFixed(2)}${diffText}<extra></extra>`;
+      });
+
+      const traces = [
+        {
+          type: 'scatterpolar',
+          r: [...preVals, preVals[0]],
+          theta: [...categories, categories[0]],
+          fill: 'none',
+          name: 'Pre-Program',
+          line: { color: '#cdacd4' },
+          hovertemplate: '<b>%{theta}</b><br>Pre-Program: %{r:.2f}<extra></extra>'
+        },
+        {
+          type: 'scatterpolar',
+          r: [...midVals, midVals[0]],
+          theta: [...categories, categories[0]],
+          fill: 'none',
+          name: 'Mid-Program',
+          line: { color: '#4B99DE' },
+          hovertemplate: midHoverTemplates
+        },
+        {
+          type: 'scatterpolar',
+          r: [...postVals, postVals[0]],
+          theta: [...categories, categories[0]],
+          fill: 'none',
+          name: 'Post-Program',
+          line: { color: '#532952' },
+          hovertemplate: postHoverTemplates
+        }
+      ];
+
+      Plotly.newPlot(chartTargetId, traces, {
+        title: { text: title, font: { size: 16 } },
+        polar: { radialaxis: { visible: true, range: [0, 5] } },
+        showlegend: true,
+        legend: { orientation: 'h', y: -0.1, x: 0.5, xanchor: 'center' },
+        margin: { t: 50, b: 50, l: 50, r: 50 }
+      }, {responsive: true});
+      createScoreTable(scoresTargetId, categories, preScores, midScores, postScores);
+    }
+
+    function createScoreTable(targetId, categories, preScores, midScores, postScores) {
+      const container = document.getElementById(targetId);
+      if (!container) return;
+
+      let tableHtml = `
+        <style>
+            .score-table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                margin-top: 20px; 
+                font-size: 0.9rem; 
+            }
+            .score-table th, .score-table td { 
+                padding: 10px 0px;
+                text-align: center; 
+                border: none;
+            }
+            .score-table th { 
+                border-bottom: 1px solid #dee2e6;
+                font-weight: 600;
+            }
+            .score-table td:not(:first-child), 
+            .score-table th:not(:first-child) { 
+                text-align: right; 
+            }
+            .score-diff-pos { color: #28a745; }
+            .score-diff-neg { color: #dc3545; }
+        </style>
+        <table class="score-table">
+            <thead>
+                <tr>
+                    <th>Skill Category</th>
+                    <th>Pre-Program</th>
+                    <th>Mid-Program</th>
+                    <th>Post-Program</th>
+                </tr>
+            </thead>
+            <tbody>
+      `;
+
+      categories.forEach(cat => {
+          const pre = preScores[cat] || 0;
+          const mid = midScores[cat] || 0;
+          const post = postScores[cat] || 0;
+
+          const midDiff = mid - pre;
+          const postDiff = post - mid;
+
+          const midDiffSign = midDiff >= 0 ? '+' : '';
+          const postDiffSign = postDiff >= 0 ? '+' : '';
+          
+          const midDiffClass = midDiff >= 0 ? 'score-diff-pos' : 'score-diff-neg';
+          const postDiffClass = postDiff >= 0 ? 'score-diff-pos' : 'score-diff-neg';
+
+          tableHtml += `
+              <tr>
+                  <td>${cat}</td>
+                  <td>${pre.toFixed(2)}</td>
+                  <td>${mid.toFixed(2)} <span class="${midDiffClass}">(${midDiffSign}${midDiff.toFixed(2)})</span></td>
+                  <td>${post.toFixed(2)} <span class="${postDiffClass}">(${postDiffSign}${postDiff.toFixed(2)})</span></td>
+              </tr>
+          `;
+      });
+
+      tableHtml += `
+            </tbody>
+        </table>
+      `;
+
+      container.innerHTML = tableHtml;
+    }
+
+    function createComparisonRadarChart(chartTargetId, scoresTargetId, title, overallScores, selfScores) {
+      const categories = Object.keys(SKILL_GROUPS);
+      
+      const overallVals = categories.map(cat => (overallScores || {})[cat] || 0);
+      const selfVals = categories.map(cat => (selfScores || {})[cat] || 0);
+
+      const selfHoverTemplates = selfVals.map((val, i) => {
+        const diff = val - overallVals[i];
+            const sign = diff >= 0 ? '+' : '';
+        const diffText = ` (${sign}${diff.toFixed(2)} vs Overall)`;
+        return `<b>${categories[i]}</b><br>Self: ${val.toFixed(2)}${diffText}<extra></extra>`;
+      });
+
+      const traces = [
+        {
+          type: 'scatterpolar',
+          r: [...overallVals, overallVals[0]],
+          theta: [...categories, categories[0]],
+          fill: 'none',
+          name: 'Overall',
+          line: { color: '#cdacd4' },
+          hovertemplate: '<b>%{theta}</b><br>Overall: %{r:.2f}<extra></extra>'
+        },
+        {
+          type: 'scatterpolar',
+          r: [...selfVals, selfVals[0]],
+          theta: [...categories, categories[0]],
+          fill: 'none',
+          name: 'Self',
+          line: { color: '#532952' },
+          hovertemplate: selfHoverTemplates
+        }
+      ];
+
+      Plotly.newPlot(chartTargetId, traces, {
+        title: { text: title, font: { size: 16 } },
+        polar: { radialaxis: { visible: true, range: [0, 5] } },
+        showlegend: true,
+        legend: { orientation: 'h', y: -0.1, x: 0.5, xanchor: 'center' },
+        margin: { t: 50, b: 50, l: 50, r: 50 }
+      }, {responsive: true});
+      createComparisonScoreTable(scoresTargetId, categories, overallScores, selfScores);
+    }
+
+    function createComparisonScoreTable(targetId, categories, overallScores, selfScores) {
+      const container = document.getElementById(targetId);
+      if (!container) return;
+
+      let tableHtml = `
+        <style>
+            .score-table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                margin-top: 20px; 
+                font-size: 0.9rem; 
+            }
+            .score-table th, .score-table td { 
+                padding: 10px 8px;
+                text-align: left; 
+                border: none;
+            }
+            .score-table th { 
+                border-bottom: 1px solid #dee2e6;
+                font-weight: 600;
+            }
+            .score-table td:not(:first-child), 
+            .score-table th:not(:first-child) { 
+                text-align: right; 
+            }
+            .score-diff-pos { color: #28a745; }
+            .score-diff-neg { color: #dc3545; }
+        </style>
+        <table class="score-table">
+            <thead>
+                <tr>
+                    <th>Skill Category</th>
+                    <th>Overall</th>
+                    <th>Self</th>
+                </tr>
+            </thead>
+            <tbody>
+      `;
+
+      categories.forEach(cat => {
+          const overall = overallScores[cat] || 0;
+          const self = selfScores[cat] || 0;
+
+          const diff = self - overall;
+          const diffSign = diff >= 0 ? '+' : '';
+          const diffClass = diff >= 0 ? 'score-diff-pos' : 'score-diff-neg';
+
+          tableHtml += `
+              <tr>
+                  <td>${cat}</td>
+                  <td>${overall.toFixed(2)}</td>
+                  <td>${self.toFixed(2)} <span class="${diffClass}">(${diffSign}${diff.toFixed(2)})</span></td>
+              </tr>
+          `;
+      });
+
+      tableHtml += `
+            </tbody>
+        </table>
+      `;
+
+      container.innerHTML = tableHtml;
+    }
+
+    // ---- Your category-level scores (exactly as provided) ----
+    // NOTE: For tab labels, I matched the names used in your HTML:
+    // - "Jose Manuel Plata" -> "Jose Plata"
+    // - "Angel Wai-Hernandez" -> "Angel Wai Hernandez"
+    // - "Jordan Edwards" -> "Jordan Edwards Williams"
+    const CAT = (ACC, PSCRA, TA, EIEDM, CTCCE, TM) =>
+      ({ 'Adaptability & Creativity': ACC,
+        'Problem-Solving': PSCRA,
+        'Tech Aptitude': TA,
+        'EQ & Ethics': EIEDM,
+        'Collab & Comms': CTCCE,
+        'Time Management': TM });
+
+    const CATEGORY_DATA = {
+      "Group: Thryfted": {
+        "Keziah Letsa": {
+          pre:  CAT(2.5, 2.5, 2.0, 3.0, 3.0, 3.0),
+          mid:  CAT(3.5, 3.0, 2.5, 3.5, 3.5, 3.5),
+          post: CAT(4.0, 3.5, 3.0, 4.0, 4.5, 4.0),
+          pre_self: CAT(2.8, 2.9, 2.2, 3.3, 3.1, 3.4),
+          mid_self: CAT(3.3, 3.2, 2.8, 3.6, 3.6, 3.7),
+          post_self: CAT(4.2, 3.8, 3.3, 4.1, 4.6, 4.2)
+        },
+        "Tochi Ugboajah": {
+          pre:  CAT(2.5, 2.5, 2.0, 2.5, 2.5, 3.0),
+          mid:  CAT(3.5, 3.0, 3.0, 3.0, 3.5, 3.5),
+          post: CAT(4.0, 3.5, 4.0, 3.5, 4.0, 4.0),
+          pre_self: CAT(2.7, 2.8, 2.4, 2.7, 2.8, 3.1),
+          mid_self: CAT(3.6, 3.3, 3.2, 3.3, 3.7, 3.6),
+          post_self: CAT(3.9, 3.7, 4.1, 3.8, 4.2, 4.1)
+        },
+        "Yasmin Folarin": {
+          pre:  CAT(3.0, 2.5, 2.0, 2.5, 3.0, 2.5),
+          mid:  CAT(3.5, 3.0, 2.5, 3.0, 3.5, 3.0),
+          post: CAT(4.0, 3.5, 3.0, 3.5, 4.0, 3.5),
+          pre_self: CAT(3.3, 2.8, 2.1, 2.8, 3.2, 2.9),
+          mid_self: CAT(3.6, 3.1, 2.7, 3.2, 3.7, 3.3),
+          post_self: CAT(4.1, 3.8, 3.2, 3.7, 4.2, 3.8)
+        },
+        "Jaheem Beck": {
+          pre:  CAT(2.5, 2.0, 2.0, 2.5, 2.5, 2.5),
+          mid:  CAT(3.0, 2.5, 2.5, 3.0, 3.0, 3.0),
+          post: CAT(3.5, 3.0, 3.5, 3.5, 3.5, 3.5),
+          pre_self: CAT(2.8, 2.4, 2.3, 2.7, 2.7, 2.8),
+          mid_self: CAT(3.2, 2.7, 2.8, 3.1, 3.3, 3.1),
+          post_self: CAT(3.7, 3.3, 3.6, 3.7, 3.8, 3.6)
+        }
+      },
+      "Group: Money Migo": {
+        "Nusayba Nizam": {
+          pre:  CAT(3.0, 3.0, 2.5, 3.0, 3.5, 3.0),
+          mid:  CAT(3.5, 3.5, 3.0, 3.5, 4.0, 3.5),
+          post: CAT(4.0, 4.5, 3.5, 4.0, 4.8, 4.0),
+          pre_self: CAT(3.2, 3.3, 2.8, 3.1, 3.7, 3.2),
+          mid_self: CAT(3.7, 3.7, 3.2, 3.7, 4.1, 3.8),
+          post_self: CAT(4.2, 4.6, 3.7, 4.2, 4.9, 4.3)
+        },
+        "Isabella Calderon": {
+          pre:  CAT(2.5, 2.5, 2.0, 2.5, 3.0, 2.5),
+          mid:  CAT(3.5, 3.5, 2.5, 3.0, 4.0, 3.5),
+          post: CAT(4.0, 4.5, 3.0, 3.5, 4.8, 4.0),
+          pre_self: CAT(2.8, 2.7, 2.2, 2.8, 3.3, 2.9),
+          mid_self: CAT(3.6, 3.8, 2.7, 3.3, 4.2, 3.8),
+          post_self: CAT(4.2, 4.7, 3.3, 3.8, 4.9, 4.2)
+        },
+        "Ben Brown": {
+          pre:  CAT(3.0, 3.0, 2.5, 2.5, 2.5, 3.0),
+          mid:  CAT(3.5, 3.5, 3.5, 3.0, 3.5, 3.5),
+          post: CAT(4.0, 4.0, 4.5, 3.5, 4.5, 4.0),
+          pre_self: CAT(3.1, 3.2, 2.9, 2.8, 2.9, 3.2),
+          mid_self: CAT(3.7, 3.8, 3.7, 3.4, 3.8, 3.7),
+          post_self: CAT(4.1, 4.3, 4.6, 3.9, 4.7, 4.2)
+        },
+        "Maryama Karimou": {
+          pre:  CAT(2.5, 2.5, 2.0, 3.0, 3.0, 2.5),
+          mid:  CAT(3.5, 3.5, 2.5, 3.5, 3.5, 3.0),
+          post: CAT(4.0, 4.5, 3.0, 4.0, 4.5, 3.5),
+          pre_self: CAT(2.8, 2.8, 2.3, 3.2, 3.2, 2.9),
+          mid_self: CAT(3.7, 3.7, 2.9, 3.8, 3.8, 3.4),
+          post_self: CAT(4.1, 4.6, 3.4, 4.2, 4.7, 3.9)
+        }
+      },
+      "Group: Mobilize Us": {
+        "Ben Dike": {
+          pre:  CAT(2.6, 2.8, 2.4, 2.8, 2.7, 2.5),
+          mid:  CAT(3.1, 3.2, 2.9, 3.1, 3.2, 2.9),
+          post: CAT(3.5, 3.4, 3.2, 3.4, 3.4, 3.1),
+          pre_self: CAT(2.9, 3.0, 2.7, 3.0, 3.0, 2.8),
+          mid_self: CAT(3.4, 3.5, 3.1, 3.3, 3.5, 3.1),
+          post_self: CAT(3.7, 3.7, 3.5, 3.6, 3.7, 3.4)
+        },
+        "Zaire Spencer": {
+          pre:  CAT(3.0, 3.0, 2.5, 3.0, 3.2, 3.0),
+          mid:  CAT(3.6, 3.6, 3.0, 3.4, 3.8, 3.4),
+          post: CAT(4.0, 4.0, 3.2, 3.8, 4.0, 3.6),
+          pre_self: CAT(3.2, 3.1, 2.8, 3.2, 3.5, 3.3),
+          mid_self: CAT(3.8, 3.7, 3.3, 3.6, 4.0, 3.7),
+          post_self: CAT(4.2, 4.2, 3.5, 4.0, 4.3, 3.9)
+        },
+        "Logan Passe": {
+          pre:  CAT(2.5, 2.6, 2.0, 2.8, 3.0, 2.8),
+          mid:  CAT(3.1, 3.1, 2.5, 3.1, 3.4, 3.1),
+          post: CAT(3.6, 3.5, 2.8, 3.4, 3.6, 3.4),
+          pre_self: CAT(2.8, 2.9, 2.3, 3.0, 3.2, 3.0),
+          mid_self: CAT(3.3, 3.4, 2.8, 3.4, 3.7, 3.4),
+          post_self: CAT(3.8, 3.8, 3.1, 3.7, 3.9, 3.6)
+        },
+        "Jose Plata": {
+          pre:  CAT(2.8, 2.9, 2.5, 2.9, 3.0, 2.8),
+          mid:  CAT(3.2, 3.2, 3.0, 3.1, 3.3, 3.0),
+          post: CAT(3.5, 3.6, 3.2, 3.4, 3.5, 3.2),
+          pre_self: CAT(3.0, 3.1, 2.8, 3.1, 3.2, 3.1),
+          mid_self: CAT(3.5, 3.4, 3.2, 3.4, 3.5, 3.3),
+          post_self: CAT(3.8, 3.8, 3.5, 3.6, 3.8, 3.5)
+        }
+      },
+      "Group: Willing Soil": {
+        "Raihan Rafin": {
+          pre:  CAT(3.0, 3.0, 2.5, 3.0, 3.5, 3.0),
+          mid:  CAT(3.6, 3.5, 2.8, 3.4, 4.0, 3.4),
+          post: CAT(4.2, 4.6, 3.4, 4.0, 4.7, 4.0),
+          pre_self: CAT(3.3, 3.2, 2.7, 3.3, 3.7, 3.2),
+          mid_self: CAT(3.8, 3.8, 3.1, 3.7, 4.2, 3.7),
+          post_self: CAT(4.4, 4.7, 3.7, 4.2, 4.8, 4.3)
+        },
+        "Jordan Edwards Williams": {
+          pre:  CAT(2.7, 2.8, 2.3, 2.8, 3.0, 2.8),
+          mid:  CAT(3.2, 3.2, 2.7, 3.1, 3.6, 3.2),
+          post: CAT(4.0, 4.4, 3.0, 3.8, 4.6, 3.8),
+          pre_self: CAT(3.0, 3.1, 2.6, 3.0, 3.3, 3.0),
+          mid_self: CAT(3.5, 3.5, 3.0, 3.4, 3.8, 3.5),
+          post_self: CAT(4.2, 4.5, 3.4, 4.0, 4.7, 4.0)
+        },
+        "Michael Bawuah": {
+          pre:  CAT(2.8, 2.9, 2.4, 2.9, 3.0, 2.8),
+          mid:  CAT(3.3, 3.3, 2.9, 3.2, 3.4, 3.1),
+          post: CAT(4.1, 4.5, 3.2, 3.9, 4.5, 3.7),
+          pre_self: CAT(3.1, 3.0, 2.7, 3.1, 3.2, 3.1),
+          mid_self: CAT(3.6, 3.5, 3.1, 3.5, 3.7, 3.4),
+          post_self: CAT(4.3, 4.6, 3.5, 4.1, 4.7, 4.0)
+        },
+        "Ishmael Sillah": {
+          pre:  CAT(2.6, 2.7, 2.2, 2.8, 2.9, 2.6),
+          mid:  CAT(3.0, 3.1, 2.5, 3.1, 3.2, 2.9),
+          post: CAT(3.6, 3.8, 2.8, 3.4, 4.2, 3.3),
+          pre_self: CAT(2.9, 2.9, 2.5, 3.0, 3.1, 2.9),
+          mid_self: CAT(3.3, 3.4, 2.8, 3.3, 3.5, 3.2),
+          post_self: CAT(3.8, 4.0, 3.1, 3.7, 4.4, 3.6)
+        }
+      },
+      "Group: Endeavor": {
+        "Rhyley Morrow": {
+          pre:  CAT(2.8, 3.0, 2.6, 2.9, 3.0, 2.9),
+          mid:  CAT(3.3, 3.4, 3.0, 3.2, 3.6, 3.3),
+          post: CAT(3.9, 4.2, 3.4, 3.7, 4.3, 3.8),
+          pre_self: CAT(3.0, 3.2, 2.8, 3.1, 3.3, 3.1),
+          mid_self: CAT(3.5, 3.6, 3.2, 3.5, 3.8, 3.5),
+          post_self: CAT(4.1, 4.4, 3.6, 3.9, 4.5, 4.0)
+        },
+        "Angel Wai Hernandez": {
+          pre:  CAT(2.9, 2.8, 2.5, 3.0, 3.0, 2.8),
+          mid:  CAT(3.4, 3.3, 2.9, 3.3, 3.8, 3.3),
+          post: CAT(4.0, 4.1, 3.3, 3.8, 4.4, 3.7),
+          pre_self: CAT(3.1, 3.0, 2.8, 3.2, 3.2, 3.0),
+          mid_self: CAT(3.6, 3.5, 3.1, 3.5, 4.0, 3.5),
+          post_self: CAT(4.2, 4.3, 3.6, 4.0, 4.6, 3.9)
+        },
+        "Caroline Creary": {
+          pre:  CAT(2.6, 2.7, 2.4, 2.7, 2.8, 2.6),
+          mid:  CAT(3.2, 3.2, 2.9, 3.1, 3.5, 3.0),
+          post: CAT(3.8, 3.9, 3.2, 3.6, 4.2, 3.5),
+          pre_self: CAT(2.9, 2.9, 2.7, 2.9, 3.1, 2.9),
+          mid_self: CAT(3.4, 3.5, 3.1, 3.4, 3.7, 3.3),
+          post_self: CAT(4.0, 4.1, 3.5, 3.8, 4.4, 3.8)
+        },
+        "Kaylee Taye": {
+          pre:  CAT(2.7, 2.8, 2.3, 2.9, 3.1, 2.8),
+          mid:  CAT(3.3, 3.4, 2.8, 3.3, 3.7, 3.2),
+          post: CAT(4.0, 4.2, 3.1, 3.9, 4.5, 3.8),
+          pre_self: CAT(3.0, 3.0, 2.6, 3.1, 3.3, 3.0),
+          mid_self: CAT(3.5, 3.7, 3.0, 3.6, 3.9, 3.5),
+          post_self: CAT(4.2, 4.4, 3.4, 4.1, 4.7, 4.0)
+        }
+      },
+      "Group: Semblynce": {
+        "Rahib Hoque": {
+          pre:  CAT(2.5, 2.6, 2.3, 2.6, 2.7, 2.5),
+          mid:  CAT(3.1, 3.2, 2.9, 3.0, 3.3, 3.0),
+          post: CAT(3.8, 3.9, 3.4, 3.5, 4.0, 3.6),
+          pre_self: CAT(2.8, 2.8, 2.5, 2.8, 3.0, 2.8),
+          mid_self: CAT(3.3, 3.4, 3.1, 3.3, 3.5, 3.3),
+          post_self: CAT(4.0, 4.1, 3.6, 3.8, 4.2, 3.8)
+        },
+        "Brandon Suarez": {
+          pre:  CAT(2.6, 2.7, 2.5, 2.8, 2.9, 2.7),
+          mid:  CAT(3.0, 3.1, 2.9, 3.1, 3.3, 2.9),
+          post: CAT(3.6, 3.8, 3.2, 3.4, 3.8, 3.4),
+          pre_self: CAT(2.9, 2.9, 2.7, 3.0, 3.1, 3.0),
+          mid_self: CAT(3.3, 3.3, 3.1, 3.3, 3.5, 3.2),
+          post_self: CAT(3.8, 4.0, 3.5, 3.6, 4.0, 3.7)
+        },
+        "Michael Quintero": {
+          pre:  CAT(2.7, 2.8, 2.4, 2.8, 2.9, 2.7),
+          mid:  CAT(3.2, 3.3, 2.9, 3.2, 3.5, 3.1),
+          post: CAT(3.7, 3.9, 3.3, 3.5, 4.0, 3.6),
+          pre_self: CAT(3.0, 3.0, 2.7, 3.0, 3.1, 3.0),
+          mid_self: CAT(3.4, 3.5, 3.1, 3.4, 3.7, 3.4),
+          post_self: CAT(3.9, 4.1, 3.6, 3.8, 4.2, 3.9)
+        },
+        "Janelle Boateng": {
+          pre:  CAT(2.9, 3.0, 2.5, 3.0, 3.1, 2.9),
+          mid:  CAT(3.5, 3.6, 3.0, 3.4, 3.8, 3.3),
+          post: CAT(4.1, 4.2, 3.5, 3.9, 4.4, 3.8),
+          pre_self: CAT(3.1, 3.2, 2.8, 3.2, 3.3, 3.1),
+          mid_self: CAT(3.7, 3.8, 3.2, 3.6, 4.0, 3.6),
+          post_self: CAT(4.3, 4.4, 3.7, 4.1, 4.6, 4.0)
+        }
+      }
+    };
+
+    // ---- Expand category scores into base skills the charts expect ----
+    function expandToBaseSkills(catScores) {
+      const base = {};
+      for (const groupName in SKILL_GROUPS) {
+        const val = catScores[groupName];
+        for (const skill of SKILL_GROUPS[groupName]) base[skill.replace('<br>','')] = val;
+      }
+      return base;
+    }
+
+    // Build TEAM_DATA from CATEGORY_DATA
+    const TEAM_DATA = {};
+    for (const group in CATEGORY_DATA) {
+      TEAM_DATA[group] = { students: {} };
+      for (const student in CATEGORY_DATA[group]) {
+        const s = CATEGORY_DATA[group][student];
+        TEAM_DATA[group].students[student] = {
+          preProgram:  expandToBaseSkills(s.pre),
+          midProgram:  expandToBaseSkills(s.mid),
+          postProgram: expandToBaseSkills(s.post),
+          preProgram_self:  expandToBaseSkills(s.pre_self),
+          midProgram_self:  expandToBaseSkills(s.mid_self),
+          postProgram_self: expandToBaseSkills(s.post_self),
+        };
+      }
+    }
+
+    // ---- Render everything (all teams + all students) ----
+    document.addEventListener('DOMContentLoaded', () => {
+      const teams = {
+        team1: { key: "Group: Thryfted", students: ["Yasmin Folarin","Keziah Letsa","Jaheem Beck","Tochi Ugboajah"] },
+        team2: { key: "Group: Money Migo", students: ["Ben Brown","Isabella Calderon","Maryama Karimou","Nusayba Nizam"] },
+        team3: { key: "Group: Mobilize Us", students: ["Ben Dike","Jose Plata","Logan Passe","Zaire Spencer"] },
+        team4: { key: "Group: Willing Soil", students: ["Ishmael Sillah","Jordan Edwards Williams","Michael Bawuah","Raihan Rafin"] },
+        team5: { key: "Group: Endeavor", students: ["Angel Wai Hernandez","Caroline Creary","Kaylee Taye","Rhyley Morrow"] },
+        team6: { key: "Group: Semblynce", students: ["Brandon Suarez","Janelle Boateng","Michael Quintero","Rahib Hoque"] },
+      };
+
+      // Team overview charts
+      for (const id of Object.keys(teams)) {
+        const key = teams[id].key;
+        const teamData = TEAM_DATA[key];
+        if (!teamData || !teamData.students) continue;
+
+        const names = Object.keys(teamData.students);
+        if (!names.length) continue;
+        
+        const calcAvgScores = (timePeriod) => {
+            const teamRaw = {};
+            BASE_SKILLS.forEach(skill => {
+                teamRaw[skill] = names.reduce((acc, n) => acc + ((teamData.students[n][timePeriod] || {})[skill] || 0), 0) / names.length;
+            });
+            return getAggregatedScores(teamRaw);
+        };
+        
+        const preScores = calcAvgScores('preProgram');
+        const midScores = calcAvgScores('midProgram');
+        const postScores = calcAvgScores('postProgram');
+
+        createOverlayRadarChart(`chart-${id}-overview`, `scores-${id}-overview`, '', preScores, midScores, postScores);
+      }
+
+      // Student charts
+      function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,''); }
+      for (const id of Object.keys(teams)) {
+        const key = teams[id].key;
+        for (const name of teams[id].students) {
+          const studentData = TEAM_DATA[key].students[name];
+          if (!studentData) continue;
+          const s = slug(name);
+          
+          const preOverall = getAggregatedScores(studentData.preProgram || {});
+          const midOverall = getAggregatedScores(studentData.midProgram || {});
+          const postOverall = getAggregatedScores(studentData.postProgram || {});
+          createOverlayRadarChart(`chart-${id}-${s}-overall`, `scores-${id}-${s}-overall`, 'Overall Assessment', preOverall, midOverall, postOverall);
+
+          const preSelf = getAggregatedScores(studentData.preProgram_self || {});
+          const midSelf = getAggregatedScores(studentData.midProgram_self || {});
+          const postSelf = getAggregatedScores(studentData.postProgram_self || {});
+          createOverlayRadarChart(`chart-${id}-${s}-self`, `scores-${id}-${s}-self`, 'Student Self-Assessment', preSelf, midSelf, postSelf);
+
+          createComparisonRadarChart(`chart-${id}-${s}-pre-comparison`, `scores-${id}-${s}-pre-comparison`, 'Pre-Program', preOverall, preSelf);
+          createComparisonRadarChart(`chart-${id}-${s}-mid-comparison`, `scores-${id}-${s}-mid-comparison`, 'Mid-Program', midOverall, midSelf);
+          createComparisonRadarChart(`chart-${id}-${s}-post-comparison`, `scores-${id}-${s}-post-comparison`, 'Post-Program', postOverall, postSelf);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
