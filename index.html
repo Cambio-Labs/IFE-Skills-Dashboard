@@ -45,7 +45,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 20px;
-      max-width: 980px;
+      max-width: 1200px;
       margin: 0 auto;
     }
     .comparison-grid > div {
@@ -54,6 +54,23 @@
       gap: 20px;
       align-items: center;
     }
+
+    .score-diff-pos { color: #28a745; }
+    .score-diff-neg { color: #dc3545; }
+    .score-table th:last-child,
+    .score-table td:last-child {
+        font-weight: bold;
+        border-left: 3px solid #cdacd4;
+        border-right: 3px solid #cdacd4;
+    }
+    .score-table th:last-child {
+        border-top: 3px solid #cdacd4;
+    }
+
+    .score-table tbody tr:last-child td:last-child {
+        border-bottom: 3px solid #cdacd4;
+    }
+
   </style>
 </head>
 <body>
@@ -62,7 +79,7 @@
     <p class="note">Welcome to the Institute for Entrepreneurship (IFE) 2025 Skill Development Dashboard. This interactive report visualizes how students and teams developed across six core skill categories throughout the five-week fellowship. Each chart provides a snapshot of growth from Pre-Program → Mid-Program → Post-Program, illustrating both individual and team-level progress.</p>
     <div class="note"><b>Cambio Labs × Prep for Prep</b></div>
 
-    <div class="tabs">
+    <div class="tabs" style="max-width: 1200px; margin: 0 auto; padding: 0;">
       <button class="tab-button" onclick="openTab(event, 'team1')">Thryfted</button>
       <button class="tab-button" onclick="openTab(event, 'team2')">Money Migo</button>
       <button class="tab-button" onclick="openTab(event, 'team3')">Mobilize Us</button>
@@ -72,7 +89,7 @@
     </div>
 
     <div id="welcome-page" class="tab-content active">
-      <div class="card" style="max-width: 980px; margin: 20px auto; padding: 25px;">
+      <div class="card" style="max-width: 980px; margin: 20px auto; padding: 10px;">
         <h2 style="text-align: center; margin-bottom: 20px;">How to Read This Dashboard</h2>
 
         <h4>You can explore:</h4>
@@ -123,8 +140,8 @@
   </div>
 
     <!-- TEAM 1: THRYFTED (WITH REAL DATA) -->
-  <div class="team-container">
-    <div id="team1" class="tab-content">
+  <div class="team-container" style="max-width: 1200px; margin: 0 auto; padding: 0;">
+    <div id="team1" class="tab-content" style="max-width: 1200px; margin: 20px; padding: 0;">
       <h2>Team: Thryfted</h2>
       <div class="subtabs">
         <button class="subtab-button active" onclick="openSubTab(event, 'team1-overview')">Team Overview</button>
@@ -136,7 +153,7 @@
 
       <div id="team1-overview" class="subtab-content active">
         <h3>Team Aggregate View</h3>
-        <p>Thryfted showed steady growth across all six skill areas. The largest gains occurred in Adaptability & Creativity, Collaboration & Communication, and Technical Aptitude, each improving by more than one point from pre- to post-program. The team’s radar indicates balanced progress, with all members demonstrating consistent improvement in both self and overall assessments.</p>
+        <p>Thryfted showed steady growth across all six skill areas. The largest gains occurred in Adaptability & Creativity, Collaboration & Communication, and Technical Aptitude, each improving by more than one point from pre- to post-program. The team's radar indicates balanced progress, with all members demonstrating consistent improvement in both self and overall assessments.</p>
         <ul>
           <li>Top Growth Areas: Adaptability & Creativity (+1.25), Collaboration & Communication (+1.25), Technical Aptitude (+1.38).</li>
           <li>Focus Areas: Problem-Solving and Time Management for continued development.</li>
@@ -202,7 +219,7 @@
 
       <div id="team1-keziah" class="subtab-content">
         <h3>Student: Keziah Letsa</h3>
-        <p>Keziah’s scores increased across all skills, with the strongest growth in Collaboration & Communication (+1.5) and Adaptability & Creativity (+1.5). Self-assessments tracked closely with overall ratings, showing accurate self-perception. Keziah's technical and organizational scores also rose steadily, indicating comprehensive improvement.</p>
+        <p>Keziah's scores increased across all skills, with the strongest growth in Collaboration & Communication (+1.5) and Adaptability & Creativity (+1.5). Self-assessments tracked closely with overall ratings, showing accurate self-perception. Keziah's technical and organizational scores also rose steadily, indicating comprehensive improvement.</p>
         <div class="assessment-tabs">
           <button class="assessment-button active" onclick="openAssessmentView(event, 'team1-keziahletsa-comparison')">Overall vs Self Assessment</button>
           <button class="assessment-button" onclick="openAssessmentView(event, 'team1-keziahletsa-overall-content')">Overall Assessment</button>
@@ -253,7 +270,7 @@
 
       <div id="team1-jaheem" class="subtab-content">
         <h3>Student: Jaheem Beck</h3>
-        <p>Jaheem’s growth was gradual and steady, with improvements of roughly +1.0 across all skill areas.Technical Aptitude and EQ & Ethics showed the highest gains, both rising by 1.5 points. Self and overall scores followed similar trajectories, showing reliable progress without major discrepancies.</p>
+        <p>Jaheem's growth was gradual and steady, with improvements of roughly +1.0 across all skill areas.Technical Aptitude and EQ & Ethics showed the highest gains, both rising by 1.5 points. Self and overall scores followed similar trajectories, showing reliable progress without major discrepancies.</p>
         <div class="assessment-tabs">
           <button class="assessment-button active" onclick="openAssessmentView(event, 'team1-jaheembeck-comparison')">Overall vs Self Assessment</button>
           <button class="assessment-button" onclick="openAssessmentView(event, 'team1-jaheembeck-overall-content')">Overall Assessment</button>
@@ -382,7 +399,7 @@
 
       <div id="team2-ben-brown" class="subtab-content">
         <h3>Student: Ben Brown</h3>
-        <p>Ben’s results show uniform progress across all areas, with clear gains in Technical Aptitude and Collaboration & Communication (+2.0 each). Self-ratings stayed slightly above overall scores, indicating accurate self-awareness. By the final stage, Ben demonstrated consistent strength across both creative and technical dimensions.</p>
+        <p>Ben's results show uniform progress across all areas, with clear gains in Technical Aptitude and Collaboration & Communication (+2.0 each). Self-ratings stayed slightly above overall scores, indicating accurate self-awareness. By the final stage, Ben demonstrated consistent strength across both creative and technical dimensions.</p>
         <div class="assessment-tabs">
           <button class="assessment-button active" onclick="openAssessmentView(event, 'team2-benbrown-comparison')">Overall vs Self Assessment</button>
           <button class="assessment-button" onclick="openAssessmentView(event, 'team2-benbrown-overall-content')">Overall Assessment</button>
@@ -484,7 +501,7 @@
 
       <div id="team2-maryama-karimou" class="subtab-content">
         <h3>Student: Maryama Karimou</h3>
-        <p>Maryama’s growth was steady across all categories, with largest gains in Problem-Solving and Collaboration & Communication (+2.0 each). Improvements in EQ & Ethics and Technical Aptitude (+1.0) reflect balanced advancement between interpersonal and technical competencies. Self-scores remained consistent with overall performance.</p>
+        <p>Maryama's growth was steady across all categories, with largest gains in Problem-Solving and Collaboration & Communication (+2.0 each). Improvements in EQ & Ethics and Technical Aptitude (+1.0) reflect balanced advancement between interpersonal and technical competencies. Self-scores remained consistent with overall performance.</p>
         <div class="assessment-tabs">
           <button class="assessment-button active" onclick="openAssessmentView(event, 'team2-maryamakarimou-comparison')">Overall vs Self Assessment</button>
           <button class="assessment-button" onclick="openAssessmentView(event, 'team2-maryamakarimou-overall-content')">Overall Assessment</button>
@@ -613,7 +630,7 @@
 
       <div id="team3-ben-dike" class="subtab-content">
         <h3>Student: Ben Dike</h3>
-        <p>Ben’s scores improved steadily across all skill areas, with increases of roughly +0.8 to +1.0 from pre- to post-program. Gains were strongest in Adaptability & Creativity and Technical Aptitude. Self-assessments were slightly higher than overall scores, showing consistent confidence and alignment with peer feedback. His profile indicates even growth across creative, interpersonal, and technical domains.</p>
+        <p>Ben's scores improved steadily across all skill areas, with increases of roughly +0.8 to +1.0 from pre- to post-program. Gains were strongest in Adaptability & Creativity and Technical Aptitude. Self-assessments were slightly higher than overall scores, showing consistent confidence and alignment with peer feedback. His profile indicates even growth across creative, interpersonal, and technical domains.</p>
         <div class="assessment-tabs">
           <button class="assessment-button active" onclick="openAssessmentView(event, 'team3-bendike-comparison')">Overall vs Self Assessment</button>
           <button class="assessment-button" onclick="openAssessmentView(event, 'team3-bendike-overall-content')">Overall Assessment</button>
@@ -766,7 +783,7 @@
 
       <div id="team3-zaire-spencer" class="subtab-content">
         <h3>Student: Zaire Spencer</h3>
-        <p>Zaire’s performance increased consistently, particularly in Adaptability & Creativity and Problem-Solving (each +1.0). Collaboration & Communication also improved by +0.8. Self-ratings and overall evaluations closely aligned, showing reliable self-perception. Zaire’s development was broad-based, with incremental gains across technical, analytical, and interpersonal skills.</p>
+        <p>Zaire's performance increased consistently, particularly in Adaptability & Creativity and Problem-Solving (each +1.0). Collaboration & Communication also improved by +0.8. Self-ratings and overall evaluations closely aligned, showing reliable self-perception. Zaire's development was broad-based, with incremental gains across technical, analytical, and interpersonal skills.</p>
         <div class="assessment-tabs">
           <button class="assessment-button active" onclick="openAssessmentView(event, 'team3-zairespencer-comparison')">Overall vs Self Assessment</button>
           <button class="assessment-button" onclick="openAssessmentView(event, 'team3-zairespencer-overall-content')">Overall Assessment</button>
@@ -829,7 +846,7 @@
 
       <div id="team4-overview" class="subtab-content active">
         <h3>Team Aggregate View</h3>
-        <p>Willing Soil showed strong and consistent improvement across all six categories, with the highest gains in Problem-Solving (+1.48) and Collaboration & Communication (+1.40). Adaptability & Creativity also rose sharply, while gains in EQ & Ethics and Time Management reflected solid overall development. The team’s trajectory shows a balanced mix of cognitive, creative, and interpersonal growth.</p>
+        <p>Willing Soil showed strong and consistent improvement across all six categories, with the highest gains in Problem-Solving (+1.48) and Collaboration & Communication (+1.40). Adaptability & Creativity also rose sharply, while gains in EQ & Ethics and Time Management reflected solid overall development. The team's trajectory shows a balanced mix of cognitive, creative, and interpersonal growth.</p>
         <ul>
           <li>Top Growth Areas: Problem-Solving (+1.48), Collaboration & Communication (+1.40), Adaptability & Creativity (+1.20)</li>
           <li>Focus Areas: Continued development in Technical Aptitude and consistent time management under complex tasks.</li>
@@ -1228,7 +1245,7 @@
 
       <div id="team5-rhyley-morrow" class="subtab-content">
         <h3>Student: Rhyley Morrow</h3>
-        <p>Rhyley’s growth was consistent across all areas: Collaboration & Communication (+1.3), Problem-Solving (+1.2), Adaptability & Creativity (+1.1), EQ & Ethics (+0.8), Technical Aptitude (+0.8), and Time Management (+0.9). Self-assessments matched overall trends, indicating reliable self-perception.</p>
+        <p>Rhyley's growth was consistent across all areas: Collaboration & Communication (+1.3), Problem-Solving (+1.2), Adaptability & Creativity (+1.1), EQ & Ethics (+0.8), Technical Aptitude (+0.8), and Time Management (+0.9). Self-assessments matched overall trends, indicating reliable self-perception.</p>
         <div class="assessment-tabs">
           <button class="assessment-button active" onclick="openAssessmentView(event, 'team5-rhyleymorrow-comparison')">Overall vs Self Assessment</button>
           <button class="assessment-button" onclick="openAssessmentView(event, 'team5-rhyleymorrow-overall-content')">Overall Assessment</button>
@@ -1306,7 +1323,7 @@
 
       <div id="team6-brandon-suarez" class="subtab-content">
         <h3>Student: Brandon Suarez</h3>
-        <p>Brandon’s overall scores rose across all skills: Adaptability & Creativity (+1.0), Problem-Solving (+1.1), EQ & Ethics (+0.6), Collaboration & Communication (+0.9), Technical Aptitude (+0.7), Time Management (+0.7). Self and overall remained closely aligned at each checkpoint.</p>
+        <p>Brandon's overall scores rose across all skills: Adaptability & Creativity (+1.0), Problem-Solving (+1.1), EQ & Ethics (+0.6), Collaboration & Communication (+0.9), Technical Aptitude (+0.7), Time Management (+0.7). Self and overall remained closely aligned at each checkpoint.</p>
         <div class="assessment-tabs">
           <button class="assessment-button active" onclick="openAssessmentView(event, 'team6-brandonsuarez-comparison')">Overall vs Self Assessment</button>
           <button class="assessment-button" onclick="openAssessmentView(event, 'team6-brandonsuarez-overall-content')">Overall Assessment</button>
@@ -1520,7 +1537,7 @@
       'Adaptability & Creativity': ['Adaptability', 'Learning', 'Creativity'],
       'Problem-Solving': ['Problem-Solving', 'Critical Thinking'],
       'EQ & Ethics': ['Emotional Intelligence', 'Ethics'],
-      'Collab & Comms': ['Communication', 'Collaboration'],
+      'Collaboration & Communication': ['Communication', 'Collaboration'],
       'Tech Aptitude': ['Tech Aptitude'],
       'Time Management': ['Time Management']
     };
@@ -1693,7 +1710,7 @@
             }
             .score-table td:not(:first-child), 
             .score-table th:not(:first-child) { 
-                text-align: right; 
+                text-align: center; 
             }
             .score-diff-pos { color: #28a745; }
             .score-diff-neg { color: #dc3545; }
@@ -1705,6 +1722,7 @@
                     <th>Pre-Program</th>
                     <th>Mid-Program</th>
                     <th>Post-Program</th>
+                    <th>Total Growth</th>
                 </tr>
             </thead>
             <tbody>
@@ -1717,12 +1735,15 @@
 
           const midDiff = mid - pre;
           const postDiff = post - mid;
+          const totalGrowth = post - pre;
 
           const midDiffSign = midDiff >= 0 ? '+' : '';
           const postDiffSign = postDiff >= 0 ? '+' : '';
+          const totalGrowthSign = totalGrowth >= 0 ? '+' : '';
           
           const midDiffClass = midDiff >= 0 ? 'score-diff-pos' : 'score-diff-neg';
           const postDiffClass = postDiff >= 0 ? 'score-diff-pos' : 'score-diff-neg';
+          const totalGrowthClass = totalGrowth >= 0 ? 'score-diff-pos' : 'score-diff-neg';
 
           tableHtml += `
               <tr>
@@ -1730,6 +1751,7 @@
                   <td>${pre.toFixed(2)}</td>
                   <td>${mid.toFixed(2)} <span class="${midDiffClass}">(${midDiffSign}${midDiff.toFixed(2)})</span></td>
                   <td>${post.toFixed(2)} <span class="${postDiffClass}">(${postDiffSign}${postDiff.toFixed(2)})</span></td>
+                  <td class="${totalGrowthClass}">${totalGrowthSign}${totalGrowth.toFixed(2)}</td>
               </tr>
           `;
       });
@@ -1792,24 +1814,25 @@
 
       let tableHtml = `
         <style>
-            .score-table { 
+            .score-table {
+                table-layout: fixed; 
                 width: 100%; 
                 border-collapse: collapse; 
                 margin-top: 20px; 
                 font-size: 0.9rem; 
             }
             .score-table th, .score-table td { 
-                padding: 10px 8px;
-                text-align: left; 
+                padding: 10px 16px;
+                text-align: center; 
                 border: none;
             }
             .score-table th { 
                 border-bottom: 1px solid #dee2e6;
                 font-weight: 600;
             }
-            .score-table td:not(:first-child), 
-            .score-table th:not(:first-child) { 
-                text-align: right; 
+            .score-table th:first-child,
+            .score-table td:first-child {
+                width: 45%;
             }
             .score-diff-pos { color: #28a745; }
             .score-diff-neg { color: #dc3545; }
@@ -1820,6 +1843,7 @@
                     <th>Skill Category</th>
                     <th>Overall</th>
                     <th>Self</th>
+                    <th>Bias Δ</th>
                 </tr>
             </thead>
             <tbody>
@@ -1828,16 +1852,17 @@
       categories.forEach(cat => {
           const overall = overallScores[cat] || 0;
           const self = selfScores[cat] || 0;
+          const bias = self - overall;
 
-          const diff = self - overall;
-          const diffSign = diff >= 0 ? '+' : '';
-          const diffClass = diff >= 0 ? 'score-diff-pos' : 'score-diff-neg';
+          const biasSign = bias >= 0 ? '+' : '';
+          const biasClass = bias >= 0 ? 'score-diff-pos' : 'score-diff-neg';
 
           tableHtml += `
               <tr>
                   <td>${cat}</td>
                   <td>${overall.toFixed(2)}</td>
-                  <td>${self.toFixed(2)} <span class="${diffClass}">(${diffSign}${diff.toFixed(2)})</span></td>
+                  <td>${self.toFixed(2)}</td>
+                  <td class="${biasClass}">${biasSign}${bias.toFixed(2)}</td>
               </tr>
           `;
       });
@@ -1860,7 +1885,7 @@
         'Problem-Solving': PSCRA,
         'Tech Aptitude': TA,
         'EQ & Ethics': EIEDM,
-        'Collab & Comms': CTCCE,
+        'Collaboration & Communication': CTCCE,
         'Time Management': TM });
 
     const CATEGORY_DATA = {
@@ -2151,9 +2176,9 @@
           const postSelf = getAggregatedScores(studentData.postProgram_self || {});
           createOverlayRadarChart(`chart-${id}-${s}-self`, `scores-${id}-${s}-self`, 'Student Self-Assessment', preSelf, midSelf, postSelf);
 
-          createComparisonRadarChart(`chart-${id}-${s}-pre-comparison`, `scores-${id}-${s}-pre-comparison`, 'Pre-Program', preOverall, preSelf);
-          createComparisonRadarChart(`chart-${id}-${s}-mid-comparison`, `scores-${id}-${s}-mid-comparison`, 'Mid-Program', midOverall, midSelf);
-          createComparisonRadarChart(`chart-${id}-${s}-post-comparison`, `scores-${id}-${s}-post-comparison`, 'Post-Program', postOverall, postSelf);
+          createComparisonRadarChart(`chart-${id}-${s}-pre-comparison`, `scores-${id}-${s}-pre-comparison`, 'Start of Program', preOverall, preSelf);
+          createComparisonRadarChart(`chart-${id}-${s}-mid-comparison`, `scores-${id}-${s}-mid-comparison`, 'Middle of Program', midOverall, midSelf);
+          createComparisonRadarChart(`chart-${id}-${s}-post-comparison`, `scores-${id}-${s}-post-comparison`, 'End of Program', postOverall, postSelf);
         }
       }
     });
