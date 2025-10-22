@@ -617,7 +617,7 @@
         <h3>Team Aggregate View</h3>
         <p>Mobilize Us showed consistent improvement across all six categories, with the largest gains in Adaptability & Creativity (+0.93) and Technical Aptitude (+0.75). Growth patterns were steady rather than sharp, suggesting sustained development throughout the program. Team performance strengthened most in creative adaptability and communication, while problem-solving and ethics saw moderate increases.</p>
         <ul>
-          <li></li>Top Growth Areas: Adaptability & Creativity (+0.93), Technical Aptitude (+0.75), Collaboration & Communication (+0.65)</li>
+          <li>Top Growth Areas: Adaptability & Creativity (+0.93), Technical Aptitude (+0.75), Collaboration & Communication (+0.65)</li>
           <li>Focus Areas: Continued enhancement of analytical reasoning and time management.</li>
         </ul>
         <div class="charts-grid">
@@ -1654,7 +1654,7 @@
           theta: [...categories, categories[0]],
           fill: 'none',
           name: 'Pre-Program',
-          line: { color: '#cdacd4' },
+          line: { color: '#cdacd4', width: 3 },
           hovertemplate: '<b>%{theta}</b><br>Pre-Program: %{r:.2f}<extra></extra>'
         },
         {
@@ -1663,7 +1663,7 @@
           theta: [...categories, categories[0]],
           fill: 'none',
           name: 'Mid-Program',
-          line: { color: '#4B99DE' },
+          line: { color: '#4B99DE', width: 3 },
           hovertemplate: midHoverTemplates
         },
         {
@@ -1672,7 +1672,7 @@
           theta: [...categories, categories[0]],
           fill: 'none',
           name: 'Post-Program',
-          line: { color: '#532952' },
+          line: { color: '#532952', width: 3 },
           hovertemplate: postHoverTemplates
         }
       ];
@@ -1681,7 +1681,9 @@
         title: { text: title, font: { size: 16 } },
         polar: { radialaxis: { visible: true, range: [0, 5] } },
         showlegend: true,
-        legend: { orientation: 'h', y: -0.1, x: 0.5, xanchor: 'center' },
+        legend: { orientation: 'h', y: -0.1, x: 0.5, xanchor: 'center',
+          font: { size: 14 }
+         },
         margin: { t: 50, b: 50, l: 50, r: 50 }
       }, {responsive: true});
       createScoreTable(scoresTargetId, categories, preScores, midScores, postScores);
@@ -1784,7 +1786,7 @@
           theta: [...categories, categories[0]],
           fill: 'none',
           name: 'Overall',
-          line: { color: '#cdacd4' },
+          line: { color: '#cdacd4', width: 3 },
           hovertemplate: '<b>%{theta}</b><br>Overall: %{r:.2f}<extra></extra>'
         },
         {
@@ -1793,7 +1795,7 @@
           theta: [...categories, categories[0]],
           fill: 'none',
           name: 'Self',
-          line: { color: '#532952' },
+          line: { color: '#532952', width: 3 },
           hovertemplate: selfHoverTemplates
         }
       ];
@@ -1802,7 +1804,7 @@
         title: { text: title, font: { size: 16 } },
         polar: { radialaxis: { visible: true, range: [0, 5] } },
         showlegend: true,
-        legend: { orientation: 'h', y: -0.1, x: 0.5, xanchor: 'center' },
+        legend: { orientation: 'h', y: -0.1, x: 0.5, xanchor: 'center', font: { size: 14 } },
         margin: { t: 50, b: 50, l: 50, r: 50 }
       }, {responsive: true});
       createComparisonScoreTable(scoresTargetId, categories, overallScores, selfScores);
